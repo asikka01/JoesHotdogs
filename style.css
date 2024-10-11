@@ -1,0 +1,30 @@
+html, body{
+        padding: 20px;
+}
+
+body{
+        text-align: center;
+        background-color: bisque;
+        font-family: 'Times New Roman', Times, serif;
+}
+
+div.container {
+        background-color: bisque;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: auto;
+}
+
+.order-details {
+        margin-top: 20px;
+        text-align: left;
+}
+
+.food-image{
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
+        display: blocks;
+}

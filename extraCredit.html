@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order from Joe's Hotdog Stand</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="container">
+                <h1>Joe's Hotdog Stand</h1>
+                <p>Please enter your order:</p>
+                <div class="menu">
+                <img src="Images/hotdog.jpg" alt="Hotdog" class="food-image">
+                <img src="Images/fries.jpg" alt="French Fries" class="food-image">
+                <img src="Images/soda.jpg" alt="Soda" class="food-image">
+                </div>
+                <button onclick="placeOrder()">Place Order</button>
+                <div id="orderDetails" class="order-details"></div>
+        </div>
+
+        <script>
+                const items = {
+                        "Hotdog": 4.80,
+                        "Fries": 3.95,
+                        "Soda": 1.99
+                };
+
+                const DIS_THRESH = 25;
+                const DIS_RATE = 0.10;
+                const TAX_RATE = 0.0625;
+
+                function showMoney(value) {
+                        return Math.round(value * 100) / 100;
+                }
+
+                function placeOrder() {
+                        const quantities = {};
+                        for (const item in items) {
+                                quantities[item] = parseInt(prompt(`How many ${item}s would you like?`, "0")) || 0;
+                        }
+
+                        let subtotal = 0;
+                        for (const item in items) {
+                                subtotal += quantities[item] * items[item];
+                        }
+
+                        let discount = 0;
+                        if (subtotal >= DIS_THRESH) {
+                                discount = showMoney(subtotal * DIS_RATE);
+                        }
+
+                        let subAfterDis = showMoney(subtotal - discount);
+                        let taxAmount = showMoney(subAfterDis * TAX_RATE);
+                        let total = showMoney(subAfterDis + taxAmount);
+
+                        document.getElementById("orderDetails").innerHTML = `
+                                <h2>Order Summary:</h2>
+                                ${Object.keys(quantities).map(item => `<p>${item}s: ${quantities[item]} x $${items[item]} = $${showMoney(quantities[item] * items[item])}</p>`).join('')}
+                                <p>Subtotal before discount: $${showMoney(subtotal)}</p>
+                                <p>Discount: $${showMoney(discount)}</p>
+                                <p>Subtotal after discount: $${showMoney(subAfterDis)}</p>
+                                <p>Tax (6.25%): $${showMoney(taxAmount)}</p>
+                                <h3>Final Total: $${showMoney(total)}</h3>
+                        `;
+                }
+        </script>
+</body>
+</html>

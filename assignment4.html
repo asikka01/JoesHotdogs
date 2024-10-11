@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order from Joe's Hotdog Stand</title>
+        <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="container">
+                <h1>Joe's Hotdog Stand</h1>
+                <p>Please enter your order:</p>
+                <button onclick="placeOrder()">Place Order</button>
+                <div id="orderDetails" class="order-detials"></div>
+        </div>
+
+        <script>
+                const HD_PRICE = 4.80;
+                const F_PRICE = 3.95;
+                const S_PRICE = 1.99;
+                const DIS_THRESH = 25;
+                const DIS_RATE = 0.10;
+                const TAX_RATE = 0.0625;
+
+                function showMoney(value)
+                {
+                        return Math.round(value * 100) / 100;
+                }
+
+                function placeOrder()
+                {
+                        let numDogs = prompt("How many hotdogs would you like?", "0") || 0;
+                        let numFries = prompt("How many fries would you like?", "0") || 0;
+                        let numSoda = prompt("How many sodas would you like?", "0") || 0;
+
+                        let totalDogs = numDogs * HD_PRICE;
+                        let totalFries = numFries * F_PRICE;
+                        let totalSodas = numSoda * S_PRICE;
+
+                        let subtotal = totalDogs + totalFries + totalSodas;
+                        let discount = 0;
+
+                        if (subtotal >= DIS_THRESH) {
+                                discount = showMoney(subtotal * DIS_RATE);
+                        }
+
+                        let subAfterDis = showMoney(subtotal - discount);
+                        let taxAmount = showMoney(subAfterDis * TAX_RATE);
+                        let total = showMoney(subAfterDis + taxAmount);
+
+                        document.getElementById("orderDetails").innerHTML = `
+                                <h2>Order Summary:</h2>
+                                <p>Hotdogs: ${numDogs} x $${HD_PRICE}= $${showMoney(totalDogs)}</p>
+                                <p>Fries: ${numFries} x $${F_PRICE}= $${showMoney(totalFries)}</p>
+                                <p>Sodas: ${numSoda} x $${S_PRICE}= $${showMoney(totalSodas)}</p>
+                                <p>Subtotal before discount: $${showMoney(subtotal)}</p>
+                                <p>Discount: $${showMoney(discount)}</p>
+                                <p>Subtotal after discount: $${showMoney(subAfterDis)}</p>
+                                <p>Tax (6.25%): $${showMoney(taxAmount)}</p>
+                                <h3>Final Total: $${showMoney(total)}</h3>
+                        `;
+                }
+
+        </script>
+</body>
+</html>
